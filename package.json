@@ -25,17 +25,7 @@
   },
   "homepage": "https://github.com/rtablada/adonis-jsonapi#readme",
   "dependencies": {
-    "bytes": "^2.3.0",
-    "co-body": "^4.0.0",
-    "csrf": "^3.0.0",
-    "formidable": "^1.0.17",
-    "jsonapi-serializer": "^3.3.0",
-    "lodash": "^4.2.1",
-    "node-csp": "^1.0.1",
-    "node-exceptions": "^1.0.1",
-    "node-guard": "^1.0.0",
-    "node-uuid": "^1.4.7",
-    "parent-require": "^1.0.0"
+    "jsonapi-serializer": "^3.3.0"
   },
   "peerDependencies": {
     "adonis-fold": "^3.0.2"
