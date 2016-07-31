@@ -1,0 +1,3 @@
+# Adonis JSON API
+
+This package is a work in progress...

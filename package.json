@@ -1,0 +1,51 @@
+{
+  "name": "adonis-jsonapi",
+  "version": "0.1.0",
+  "description": "A JSON API configuration for adonis-framework",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run lint && istanbul cover _mocha --report lcovonly -- -R spec test && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage",
+    "coverage": "istanbul cover _mocha test --bail",
+    "lint": "standard src/**/*.js --global use"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rtablada/adonis-jsonapi.git"
+  },
+  "keywords": [
+    "adonis",
+    "http-middleware",
+    "middleware",
+    "adonisjs"
+  ],
+  "author": "Ryan Tablada",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rtablada/adonis-jsonapi/issues"
+  },
+  "homepage": "https://github.com/rtablada/adonis-jsonapi#readme",
+  "dependencies": {
+    "bytes": "^2.3.0",
+    "co-body": "^4.0.0",
+    "csrf": "^3.0.0",
+    "formidable": "^1.0.17",
+    "jsonapi-serializer": "^3.3.0",
+    "lodash": "^4.2.1",
+    "node-csp": "^1.0.1",
+    "node-exceptions": "^1.0.1",
+    "node-guard": "^1.0.0",
+    "node-uuid": "^1.4.7"
+  },
+  "peerDependencies": {
+    "adonis-fold": "^3.0.2"
+  },
+  "devDependencies": {
+    "eslint": "^3.2.0",
+    "eslint-config-rtablada": "^2.0.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
