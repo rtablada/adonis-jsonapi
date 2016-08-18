@@ -25,7 +25,11 @@
   },
   "homepage": "https://github.com/rtablada/adonis-jsonapi#readme",
   "dependencies": {
-    "jsonapi-serializer": "^3.3.0"
+    "change-case": "^3.0.0",
+    "jsonapi-serializer": "^3.3.0",
+    "lodash.mapkeys": "^4.6.0",
+    "lodash.pick": "^4.4.0",
+    "node-exceptions": "^1.0.3"
   },
   "peerDependencies": {
     "adonis-fold": "^3.0.2"
@@ -33,10 +37,5 @@
   "devDependencies": {
     "eslint": "^3.2.0",
     "eslint-config-rtablada": "^2.0.0"
-  },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
-    }
   }
 }
