@@ -105,3 +105,37 @@ Example
   response.send(data);
 }
 ```
+
+## Error Handling
+
+To help format errors to JSON API specifications, there is a response macro `JsonApiError`.
+A simple setup is to replace the Http handleError listener in `app/Listeners/Http.js`:
+
+```js
+Http.handleError = function * (error, request, response) {
+/**
+ * DEVELOPMENT REPORTER
+ */
+  if (Env.get('NODE_ENV') === 'development') {
+    return (new Ouch)
+      .pushHandler((new Ouch.handlers.JsonResponseHandler(
+            /* handle errors from ajax and json request only*/false,
+            /* return formatted trace information along with error response*/false,
+            false
+        )))
+      // .pushHandler(new Ouch.handlers.PrettyPageHandler())
+      .handleException(error, request.request, response.response, (output) => {
+        const status = error.status || 500;
+
+        response.status(status).send(JSON.parse(output));
+        console.log('Error handled properly');
+      });
+  }
+
+  yield response.jsonApiError(error);
+};
+```
+
+> **NOTE** This macro shows the `name` and `message` properties but not the stack for errors.
+> This may not be what you want since it may expose too much information about your environment.
+> This macro will never show the full stack trace, instead work is being done to bring Youch up to date with a JsonApiResponseHandler.
