@@ -26,7 +26,9 @@
   "homepage": "https://github.com/rtablada/adonis-jsonapi#readme",
   "dependencies": {
     "change-case": "^3.0.0",
+    "i": "^0.3.5",
     "jsonapi-serializer": "^3.3.0",
+    "lodash.keysin": "^4.2.0",
     "lodash.mapkeys": "^4.6.0",
     "lodash.pick": "^4.4.0",
     "node-exceptions": "^1.0.3"

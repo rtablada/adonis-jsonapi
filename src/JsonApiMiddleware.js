@@ -7,16 +7,18 @@ function setupSerializer(use) {
   return function (serializerName, data, statusCode = 200) {
     const helpers = use('Helpers');
 
-    const { type, serializer } = use(helpers.makeNameSpace('Http/Serializers', serializerName));
+    const View = use(helpers.makeNameSpace('Http/Serializers', serializerName));
+    const view = new View(use);
 
     if (data.toJSON && typeof data.toJSON === 'function') {
       data = data.toJSON();
     }
+
     const pluralizeType = Array.isArray(data);
 
-    const options = Object.assign({}, serializer, { pluralizeType });
+    const options = Object.assign({}, view.build(), { pluralizeType });
 
-    const json = new JsonApiSerializer(type, options).serialize(data);
+    const json = new JsonApiSerializer(view.type, options).serialize(data);
 
     this.status(statusCode).json(json);
   };
