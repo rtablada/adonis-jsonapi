@@ -31,7 +31,15 @@ class JsonApi {
 
     Response.macro('isJsonApiError', (err) => err instanceof JsonApiError);
     Response.macro('jsonApiError', function (err) {
-      this.status(err.status).json({ errors: [err.message] });
+      if (err instanceof JsonApiError) {
+        this.status(err.status).json({ errors: [err.message] });
+      } else {
+        this.status(err.status).json({ errors: [{
+          status: err.status,
+          title: err.name,
+          detail: err.message,
+        }] });
+      }
     });
   }
 
