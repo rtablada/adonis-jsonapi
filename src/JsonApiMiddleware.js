@@ -7,7 +7,7 @@ function setupSerializer(use) {
   return function (serializerName, data, statusCode = 200) {
     const helpers = use('Helpers');
 
-    const View = use(helpers.makeNameSpace('Http/Serializers', serializerName));
+    const View = use(helpers.makeNameSpace('Http/JsonApiViews', serializerName));
     const view = new View(use);
 
     if (data.toJSON && typeof data.toJSON === 'function') {

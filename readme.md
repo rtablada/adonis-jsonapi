@@ -106,6 +106,71 @@ Example
 }
 ```
 
+## Serializing Response Data
+
+Serializing data takes two steps:
+
+1. Creating JsonApiView's to describe attributes and relationships
+2. Using the `jsonApi` response macro to serialize data
+
+### Creating Views
+
+To create a view, create a new module in `App/Http/JsonApiViews`.
+For instance to serialize a lucid model named `Author`, create a file `app/Http/JsonApiViewsAuthor.js`.
+From this new module, export a class that extends from `adonis-jsonapi/src/JsonApiView`:
+
+```js
+const JsonApiView = require('adonis-jsonapi/src/JsonApiView');
+
+class Author extends JsonApiView {
+
+}
+
+module.exports = Author;
+```
+
+#### Describing Attributes
+
+Attributes are values that should be directly serialized as part of `data.attributes` for a single model instance.
+To describe the properties to be serialized, add a getter method called `attributes` that returns an array of dasherized property names:
+
+```js
+const JsonApiView = require('adonis-jsonapi/src/JsonApiView');
+
+class Author extends JsonApiView {
+  get attributes() {
+    return ['first-name', 'last-name'];
+  }
+}
+
+module.exports = Author;
+```
+
+#### Describing Relationships
+
+To create relations, create a method for the relation name and use either `this.belongsTo` or `this.hasMany` just like Lucid relations.
+But instead of putting the name of a model, you will put the name of the serializer for the related model.
+Let's say our `Author` has many `Book`s:
+
+```js
+const JsonApiView = require('adonis-jsonapi/src/JsonApiView');
+
+class Author extends JsonApiView {
+  get attributes() {
+    return ['first-name', 'last-name'];
+  }
+
+  books() {
+    return this.hasMany('App/Http/JsonApiViews/Book');
+  }
+}
+
+module.exports = Author;
+```
+
+> **NOTE** Since JSON API does not have a specification of ownership, only `belongsTo` and `hasMany` relationships are needed for JsonApiViews.
+> So for `hasOne` relations use `belongsTo` for both sides, and for `belongsToMany` use a `hasMany` relation.
+
 ## Error Handling
 
 To help format errors to JSON API specifications, there is a response macro `JsonApiError`.
