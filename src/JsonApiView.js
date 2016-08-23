@@ -20,7 +20,7 @@ class JsonApiView {
   }
 
   get type() {
-    return i.dasherize(i.pluralize(i.underscore(this.constructor.name)));
+    return i.dasherize(i.underscore(this.constructor.name));
   }
 
   get loadedData() {
