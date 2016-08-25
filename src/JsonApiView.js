@@ -2,15 +2,16 @@ const i = require('inflect');
 const keysIn = require('lodash.keysin');
 
 class JsonApiRelation {
-  constructor(serializer, included = false) {
+  constructor(serializer, { included = false, excludeRelation }) {
     this.serializer = serializer;
     this.included = included;
+    this.excludeRelation = excludeRelation;
   }
 
   build(use) {
     const serializer = new (use(this.serializer))(use);
-    return Object.assign({}, { ref: 'id', included: true },
-      serializer.buildNoRelationships());
+    return Object.assign({}, { ref: 'id', included: this.included },
+      serializer.build({ excludeRelation: this.excludeRelation }));
   }
 }
 
@@ -39,12 +40,12 @@ class JsonApiView {
       .filter((prop) => this[prop]() instanceof JsonApiRelation);
   }
 
-  hasMany(serializer) {
-    return new JsonApiRelation(serializer);
+  hasMany(serializer, options) {
+    return new JsonApiRelation(serializer, options);
   }
 
-  belongsTo(serializer) {
-    return new JsonApiRelation(serializer);
+  belongsTo(serializer, options) {
+    return new JsonApiRelation(serializer, options);
   }
   buildNoRelationships() {
     return {
@@ -53,12 +54,14 @@ class JsonApiView {
     };
   }
 
-  build() {
+  build({ excludeRelation } = {}) {
     const obj = this.buildNoRelationships();
 
     this.relations.forEach((relation) => {
-      obj.attributes.push(relation);
-      obj[relation] = this[relation]().build(this.use);
+      if (relation !== excludeRelation) {
+        obj.attributes.push(relation);
+        obj[relation] = this[relation]().build(this.use);
+      }
     });
 
     return obj;
