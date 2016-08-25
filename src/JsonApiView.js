@@ -10,8 +10,13 @@ class JsonApiRelation {
 
   build(use) {
     const serializer = new (use(this.serializer))(use);
-    return Object.assign({}, { ref: 'id', included: this.included },
-      serializer.build({ excludeRelation: this.excludeRelation }));
+
+    if (this.included) {
+      return Object.assign({}, { ref: 'id', included: this.included },
+        serializer.build({ excludeRelation: this.excludeRelation }));
+    }
+
+    return { ref: 'id', included: this.included, type: serializer.type };
   }
 }
 
