@@ -4,7 +4,7 @@ const JsonApiSerializer = require('jsonapi-serializer').Serializer;
 const { JsonApiRequest, JsonApiError } = require('./JsonApiRequest');
 
 function setupSerializer(use) {
-  return function (serializerName, data, statusCode = 200) {
+  return function (serializerName, data) {
     const helpers = use('Helpers');
 
     const View = use(helpers.makeNameSpace('Http/JsonApiViews', serializerName));
@@ -20,7 +20,7 @@ function setupSerializer(use) {
 
     const json = new JsonApiSerializer(view.type, options).serialize(data);
 
-    this.status(statusCode).json(json);
+    return json;
   };
 }
 
@@ -28,8 +28,14 @@ class JsonApi {
 
   constructor(use) {
     const Response = use('Adonis/Src/Response');
+    const serializer = setupSerializer(use);
 
-    Response.macro('jsonApi', setupSerializer(use));
+    Response.macro('jsonApiSerialize', serializer);
+    Response.macro('jsonApi', (serializerName, data, statusCode = 200) => {
+      const json = serializer(serializerName, data);
+
+      this.status(statusCode).json(json);
+    });
 
     Response.macro('isJsonApiError', (err) => err instanceof JsonApiError);
     Response.macro('jsonApiError', function (err) {
