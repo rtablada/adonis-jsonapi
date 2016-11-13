@@ -30,8 +30,8 @@ class JsonApi {
     const Response = use('Adonis/Src/Response');
     const serializer = setupSerializer(use);
 
-    Response.macro('jsonApiSerialize', serializer);
-    Response.macro('jsonApi', (serializerName, data, statusCode = 200) => {
+    Response.macro('serializePayload', serializer);
+    Response.macro('jsonApi', function (serializerName, data, statusCode = 200) {
       const json = serializer(serializerName, data);
 
       this.status(statusCode).json(json);
