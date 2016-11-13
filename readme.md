@@ -43,7 +43,7 @@ The `getAttributes` method optionally accepts an array of attributes and will us
 Example
 ```js
 * store(request, response) {
-  const data = request.getAttributes(['email', 'password', 'password-confirmation']);
+  const data = request.jsonApi.getAttributes(['email', 'password', 'password-confirmation']);
 
   response.send(data);
 }
@@ -56,7 +56,7 @@ This is the same as `getAttributes`, but will use `change-case` to change proper
 Example
 ```js
 * store(request, response) {
-  const data = request.getAttributesCamelCase(['email', 'password', 'password-confirmation']);
+  const data = request.jsonApi.getAttributesCamelCase(['email', 'password', 'password-confirmation']);
 
   response.send(data);
 }
@@ -69,7 +69,7 @@ This is the same as `getAttributes`, but will use `change-case` to change proper
 Example
 ```js
 * store(request, response) {
-  const data = request.getAttributesSnakeCase(['email', 'password', 'password-confirmation']);
+  const data = request.jsonApi.getAttributesSnakeCase(['email', 'password', 'password-confirmation']);
 
   response.send(data);
 }
@@ -84,7 +84,7 @@ This method will dig into the request JSON and look for `data.id`.
 Example
 ```js
 * store(request, response) {
-  const data = request.getId();
+  const data = request.jsonApi.getId();
 
   response.send(data);
 }
@@ -100,7 +100,7 @@ If the values do not match, then a `JsonApiError` with error code 400 and title 
 Example
 ```js
 * store(request, response) {
-  const data = request.assertId();
+  const data = request.jsonApi.assertId();
 
   response.send(data);
 }
