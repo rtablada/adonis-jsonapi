@@ -132,7 +132,7 @@ Serializing data takes two steps:
 ### Creating Views
 
 To create a view, create a new module in `App/Http/JsonApiViews`.
-For instance to serialize a lucid model named `Author`, create a file `app/Http/JsonApiViewsAuthor.js`.
+For instance to serialize a lucid model named `Author`, create a file `app/Http/JsonApiViews/Author.js`.
 From this new module, export a class that extends from `adonis-jsonapi/src/JsonApiView`:
 
 ```js
