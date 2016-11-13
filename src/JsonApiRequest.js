@@ -67,6 +67,20 @@ class JsonApiRequest {
       }, 400);
     }
   }
+
+  getRelationId(relationName) {
+    try {
+      const { data: { relationships } = {} } = this.request.all() || {};
+
+      return relationships[relationName].id;
+    } catch (e) {
+      throw new JsonApiError({
+        code: '400',
+        title: `Relation "${relationName}" not found`,
+        detail: `Missing "${relationName}" Member in "data" key.`,
+      }, 400);
+    }
+  }
 }
 
 module.exports = {
