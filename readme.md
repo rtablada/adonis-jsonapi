@@ -100,7 +100,23 @@ If the values do not match, then a `JsonApiError` with error code 400 and title 
 Example
 ```js
 * store(request, response) {
-  const data = request.assertId();
+  request.assertId(reqest.params.id);
+
+  response.send(data);
+}
+```
+
+### `getRelationId`
+
+This function gets the `id` for a specified relation name.
+
+> If the incoming request is not formatted with the required relation, this method will throw a `JsonApiError` with error codes and title `Relation not found`.
+
+Example
+```js
+* store(request, response) {
+  const data = request.getAttributes(['email', 'password', 'password-confirmation']);
+  data.user_id = request.getRelationId('author');
 
   response.send(data);
 }
