@@ -177,12 +177,18 @@ class Author extends JsonApiView {
   }
 
   books() {
-    return this.hasMany('App/Http/JsonApiViews/Book');
+    return this.hasMany('App/Http/JsonApiViews/Book', {
+      included: true,
+      excludeRelation: 'author'
+    });
   }
 }
 
 module.exports = Author;
 ```
+
+> **NOTE** the options object included with the relation is required since circular object references are really annoying.
+> I hope that this was more automatic (if anyone is looking to help!).
 
 > **NOTE** Since JSON API does not have a specification of ownership, only `belongsTo` and `hasMany` relationships are needed for JsonApiViews.
 > So for `hasOne` relations use `belongsTo` for both sides, and for `belongsToMany` use a `hasMany` relation.
