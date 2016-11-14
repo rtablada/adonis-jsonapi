@@ -72,7 +72,7 @@ class JsonApiRequest {
     try {
       const { data: { relationships } = {} } = this.request.all() || {};
 
-      return relationships[relationName].id;
+      return relationships[relationName].data.id;
     } catch (e) {
       throw new JsonApiError({
         code: '400',
