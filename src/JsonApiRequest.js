@@ -76,7 +76,7 @@ class JsonApiRequest {
     } catch (e) {
       throw new JsonApiError({
         code: '400',
-        title: `Relation "${relationName}" not found`,
+        title: 'Relation not found',
         detail: `Missing "${relationName}" Member in "data" key.`,
       }, 400);
     }
