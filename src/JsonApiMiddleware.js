@@ -1,7 +1,7 @@
 'use strict';
 
 const JsonApiSerializer = require('jsonapi-serializer').Serializer;
-const { JsonApiRequest, JsonApiError } = require('./JsonApiRequest');
+const { JsonApiRequest, JsonApiError, ValidationError } = require('./JsonApiRequest');
 
 function setupSerializer(use) {
   return function (serializerName, data) {
@@ -38,8 +38,11 @@ class JsonApi {
     });
 
     Response.macro('isJsonApiError', (err) => err instanceof JsonApiError);
+    Response.macro('isValidationError', (err) => err instanceof ValidationError);
     Response.macro('jsonApiError', function (err) {
-      if (err instanceof JsonApiError) {
+      if (err instanceof ValidationError) {
+        this.status(err.status).json({ errors: err.makeErrors() });
+      } else if (err instanceof JsonApiError) {
         this.status(err.status).json({ errors: [err.message] });
       } else {
         this.status(err.status).json({ errors: [{

@@ -2,6 +2,22 @@ const NE = require('node-exceptions');
 
 class JsonApiError extends NE.LogicalException {}
 
+class ValidationError extends NE.LogicalException {
+  constructor(validator, status = 400) {
+    super('', status);
+    this.validator = validator;
+  }
+
+  makeErrors() {
+    return this.validator.messages().map((err) => ({
+      status: this.status,
+      source: { pointer: `/data/attributes/${err.field}` },
+      title: 'Invalid Attribute',
+      detail: err.message,
+    }));
+  }
+}
+
 const pick = require('lodash.pick');
 const mapKeys = require('lodash.mapkeys');
 const changeCase = require('change-case');
@@ -68,6 +84,15 @@ class JsonApiRequest {
     }
   }
 
+  * assertValid(input, rules, messages) {
+    const Validator = use('Validator');
+    const validation = yield Validator.validateAll(input, rules, messages);
+
+    if (validation.fails()) {
+      throw new ValidationError(validation);
+    }
+  }
+
   getRelationId(relationName) {
     try {
       const { data: { relationships } = {} } = this.request.all() || {};
@@ -86,4 +111,5 @@ class JsonApiRequest {
 module.exports = {
   JsonApiRequest,
   JsonApiError,
+  ValidationError,
 };
