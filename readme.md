@@ -108,7 +108,7 @@ Example
 
 ### `getRelationId`
 
-This function gets the `id` for a specified relation name.
+This function gets the `id` for a specified relation name. If the relation is an hasMany relation, the function will return an array of ids.
 
 > If the incoming request is not formatted with the required relation, this method will throw a `JsonApiError` with error codes and title `Relation not found`.
 
