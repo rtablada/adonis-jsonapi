@@ -99,10 +99,8 @@ class JsonApiRequest {
 
       if (Array.isArray(relationships[relationName].data)) {
         return relationships[relationName].data.map((i) => i.id);
-      } else {
-        return relationships[relationName].data.id;
       }
-
+      return relationships[relationName].data.id;
     } catch (e) {
       throw new JsonApiError({
         code: '400',
