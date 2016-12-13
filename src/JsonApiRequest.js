@@ -97,6 +97,9 @@ class JsonApiRequest {
     try {
       const { data: { relationships } = {} } = this.request.all() || {};
 
+      if (Array.isArray(relationships[relationName].data)) {
+        return relationships[relationName].data.map((i) => i.id);
+      }
       return relationships[relationName].data.id;
     } catch (e) {
       throw new JsonApiError({
