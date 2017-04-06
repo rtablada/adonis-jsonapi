@@ -193,6 +193,29 @@ module.exports = Author;
 > **NOTE** Since JSON API does not have a specification of ownership, only `belongsTo` and `hasMany` relationships are needed for JsonApiViews.
 > So for `hasOne` relations use `belongsTo` for both sides, and for `belongsToMany` use a `hasMany` relation.
 
+#### Custom Primary Keys
+
+For most Adonis Lucid models, you will want to use the `id` property as the primary key displayed in resources.
+But sometimes, you may want to use a different field for your primary key.
+This can be configured by creating a `primaryKey` getter that returns the property name for the primary key that is used for `id` in the resulting resource.
+
+
+```js
+const JsonApiView = require('adonis-jsonapi/src/JsonApiView');
+
+class Post extends JsonApiView {
+  get attributes() {
+    return ['title', 'content'];
+  }
+  
+  get primaryKey() {
+    return 'slug';
+  }
+}
+
+module.exports = Post;
+```
+
 ## Error Handling
 
 To help format errors to JSON API specifications, there is a response macro `JsonApiError`.
