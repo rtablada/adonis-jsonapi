@@ -25,6 +25,10 @@ class JsonApiView {
     this.use = use;
   }
 
+  get primaryKey() {
+    return 'id';
+  }
+
   get type() {
     return i.dasherize(i.underscore(this.constructor.name));
   }
@@ -54,6 +58,7 @@ class JsonApiView {
   }
   buildNoRelationships() {
     return {
+      id: this.primaryKey,
       type: this.type,
       attributes: this.attributes,
     };
