@@ -64,7 +64,7 @@ class JsonApiView {
     };
   }
 
-  build({ excludeRelation } = {}) {
+  build({ excludeRelation, meta } = {}) {
     const obj = this.buildNoRelationships();
 
     this.relations.forEach((relation) => {
@@ -73,6 +73,8 @@ class JsonApiView {
         obj[relation] = this[relation]().build(this.use);
       }
     });
+
+    obj.meta = meta || {};
 
     return obj;
   }

@@ -4,7 +4,7 @@ const JsonApiSerializer = require('jsonapi-serializer').Serializer;
 const { JsonApiRequest, JsonApiError, ValidationError } = require('./JsonApiRequest');
 
 function setupSerializer(use) {
-  return function (serializerName, data) {
+  return function (serializerName, data, meta) {
     const helpers = use('Helpers');
 
     const View = use(helpers.makeNameSpace('Http/JsonApiViews', serializerName));
@@ -16,7 +16,7 @@ function setupSerializer(use) {
 
     const pluralizeType = Array.isArray(data);
 
-    const options = Object.assign({}, view.build(), { pluralizeType });
+    const options = Object.assign({}, view.build({ meta: meta }), { pluralizeType });
 
     const json = new JsonApiSerializer(view.type, options).serialize(data);
 
@@ -31,8 +31,8 @@ class JsonApi {
     const serializer = setupSerializer(use);
 
     Response.macro('serializePayload', serializer);
-    Response.macro('jsonApi', function (serializerName, data, statusCode = 200) {
-      const json = serializer(serializerName, data);
+    Response.macro('jsonApi', function (serializerName, data, meta = {}, statusCode = 200) {
+      const json = serializer(serializerName, data, meta);
 
       this.status(statusCode).json(json);
     });
