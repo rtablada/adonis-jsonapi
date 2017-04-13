@@ -207,13 +207,38 @@ class Post extends JsonApiView {
   get attributes() {
     return ['title', 'content'];
   }
-  
+
   get primaryKey() {
     return 'slug';
   }
 }
 
 module.exports = Post;
+```
+
+### Custom Primary Keys for Relationships
+
+For relations primary keys can be customized using `ref`.
+For instance in our AuthorView, we can say that our related books use the `isbn` as a primary key:
+
+```js
+const JsonApiView = require('adonis-jsonapi/src/JsonApiView');
+
+class Author extends JsonApiView {
+  get attributes() {
+    return ['first-name', 'last-name'];
+  }
+
+  books() {
+    return this.hasMany('App/Http/JsonApiViews/Book', {
+      ref: 'isbn',
+      included: true,
+      excludeRelation: 'author'
+    });
+  }
+}
+
+module.exports = Author;
 ```
 
 ## Error Handling

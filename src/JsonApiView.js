@@ -2,8 +2,9 @@ const i = require('inflect');
 const keysIn = require('lodash.keysin');
 
 class JsonApiRelation {
-  constructor(serializer, { included = false, excludeRelation }) {
+  constructor(serializer, { ref = 'id', included = false, excludeRelation }) {
     this.serializer = serializer;
+    this.ref = ref;
     this.included = included;
     this.excludeRelation = excludeRelation;
   }
@@ -12,11 +13,11 @@ class JsonApiRelation {
     const serializer = new (use(this.serializer))(use);
 
     if (this.included) {
-      return Object.assign({}, { ref: 'id', included: this.included },
+      return Object.assign({}, { ref: this.ref, included: this.included },
         serializer.build({ excludeRelation: this.excludeRelation }));
     }
 
-    return { ref: 'id', included: this.included, type: serializer.type };
+    return { ref: this.ref, included: this.included, type: serializer.type };
   }
 }
 
