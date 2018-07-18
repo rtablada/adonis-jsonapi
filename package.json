@@ -27,6 +27,7 @@
   "dependencies": {
     "change-case": "^3.0.0",
     "i": "^0.3.5",
+    "inflect": "^0.4.0",
     "jsonapi-serializer": "^3.5.0",
     "lodash.keysin": "^4.2.0",
     "lodash.mapkeys": "^4.6.0",
