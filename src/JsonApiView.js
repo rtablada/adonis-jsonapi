@@ -26,6 +26,10 @@ class JsonApiView {
     this.use = use;
   }
 
+  static typeForAttribute(attribute, record) {
+    return i.dasherize(i.underscore(attribute));
+  }
+
   get primaryKey() {
     return 'id';
   }
@@ -74,6 +78,8 @@ class JsonApiView {
         obj[relation] = this[relation]().build(this.use);
       }
     });
+
+    obj.typeForAttribute = this.constructor.typeForAttribute;
 
     obj.meta = meta || {};
 
