@@ -49,7 +49,7 @@ class JsonApiView {
   get relations() {
     const proto = this.constructor.prototype;
     return Object.getOwnPropertyNames(proto)
-      .filter((prop) => ['constructor', 'attributes'].indexOf(prop) !== 0)
+      .filter((prop) => ['constructor', 'attributes', 'build'].indexOf(prop) === -1)
       .filter((prop) => typeof this[prop] === 'function')
       .filter((prop) => this[prop]() instanceof JsonApiRelation);
   }
