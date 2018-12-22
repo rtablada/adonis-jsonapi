@@ -51,12 +51,11 @@ class JsonApi {
     });
   }
 
-  async handle(request, response, next) {
+  async handle({request, response, next}) {
     request.jsonApi = new JsonApiRequest(request);
 
     await next;
   }
-
 }
 
 module.exports = JsonApi;
