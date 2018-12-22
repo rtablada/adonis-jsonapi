@@ -54,7 +54,7 @@ class JsonApi {
   async handle({request, response}, next) {
     request.jsonApi = new JsonApiRequest(request);
 
-    await next;
+    await next();
   }
 }
 
