@@ -5,7 +5,7 @@ function setupSerializer(use) {
   return function (serializerName, data, meta) {
     const helpers = use('Helpers');
 
-    const View = use(helpers.makeNameSpace('Http/JsonApiViews', serializerName));
+    const View = use(helpers.makeNameSpace('JsonApiViews', serializerName));
     const view = new View(use);
 
     if (data.toJSON && typeof data.toJSON === 'function') {
@@ -51,7 +51,7 @@ class JsonApi {
     });
   }
 
-  async handle({request, response, next}) {
+  async handle({request, response}, next) {
     request.jsonApi = new JsonApiRequest(request);
 
     await next;
