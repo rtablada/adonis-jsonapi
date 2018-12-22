@@ -1,4 +1,4 @@
-const i = require('inflect');
+const i = require('inflection');
 const keysIn = require('lodash.keysin');
 
 class JsonApiRelation {

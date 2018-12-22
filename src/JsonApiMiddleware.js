@@ -1,5 +1,3 @@
-'use strict';
-
 const JsonApiSerializer = require('jsonapi-serializer').Serializer;
 const { JsonApiRequest, JsonApiError, ValidationError } = require('./JsonApiRequest');
 
@@ -25,7 +23,6 @@ function setupSerializer(use) {
 }
 
 class JsonApi {
-
   constructor(use) {
     const Response = use('Adonis/Src/Response');
     const serializer = setupSerializer(use);
@@ -54,10 +51,10 @@ class JsonApi {
     });
   }
 
-  * handle(request, response, next) {
+  async handle(request, response, next) {
     request.jsonApi = new JsonApiRequest(request);
 
-    yield next;
+    await next;
   }
 
 }
