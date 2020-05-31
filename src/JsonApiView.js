@@ -1,4 +1,4 @@
-const i = require('inflect');
+const i = require('inflection');
 const keysIn = require('lodash.keysin');
 
 class JsonApiRelation {
@@ -26,6 +26,10 @@ class JsonApiView {
     this.use = use;
   }
 
+  static typeForAttribute(attribute, record) {
+    return i.dasherize(i.underscore(attribute));
+  }
+
   get primaryKey() {
     return 'id';
   }
@@ -45,7 +49,7 @@ class JsonApiView {
   get relations() {
     const proto = this.constructor.prototype;
     return Object.getOwnPropertyNames(proto)
-      .filter((prop) => ['constructor', 'attributes'].indexOf(prop) !== 0)
+      .filter((prop) => ['constructor', 'attributes', 'build'].indexOf(prop) === -1)
       .filter((prop) => typeof this[prop] === 'function')
       .filter((prop) => this[prop]() instanceof JsonApiRelation);
   }
@@ -74,6 +78,8 @@ class JsonApiView {
         obj[relation] = this[relation]().build(this.use);
       }
     });
+
+    obj.typeForAttribute = this.constructor.typeForAttribute;
 
     obj.meta = meta || {};
 

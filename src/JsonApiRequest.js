@@ -84,9 +84,9 @@ class JsonApiRequest {
     }
   }
 
-  * assertValid(input, rules, messages) {
+  async assertValid(input, rules, messages) {
     const Validator = use('Validator');
-    const validation = yield Validator.validateAll(input, rules, messages);
+    const validation = await Validator.validateAll(input, rules, messages);
 
     if (validation.fails()) {
       throw new ValidationError(validation);
